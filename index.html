@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gioco Fantozzi: Togli gli Ultimi 3 Zeri</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        input, button {
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 18px;
+            width: 90%; /* Larghezza responsiva per il mobile */
+            max-width: 400px; /* Larghezza massima */
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #feedback {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .animazione {
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Gioco Fantozzi</h1>
+    <p>In previsione dell'avvento della lira pesante questi vogliono modificare tutti i loro listini, vale a dire menu, tutto il prezzario, tutta la loro contabilità. È un lavoro delicatissimo e di grandissima responsabilità.</p>
+    <p>Devi con una tastiera cancellare glu ultimi tre zeri</p>
+    
+    <button id="startButton" onclick="iniziaGioco()">Inizia Gioco</button>
+    
+    <div id="domanda" style="display: none;">
+        <p id="lire"></p>
+        <input type="number" id="risposta" placeholder="Risposta (in euro)">
+        <button onclick="verifica()">Prova!</button>
+    </div>
+
+    <div id="feedback"></div>
+
+    <script>
+        let cifraOriginale;
+
+        function iniziaGioco() {
+            // Genera un numero casuale positivo che termina con "000" (da 1000 a 1.000.000)
+            cifraOriginale = Math.floor(Math.random() * (1000000 - 1000 + 1)) * 1000 + 1000; // Assicuriamoci che sia positivo
+            document.getElementById('lire').innerText = `Togli gli ultimi 3 zeri da: ${cifraOriginale} lire`;
+            document.getElementById('domanda').style.display = 'block';
+            document.getElementById('feedback').innerHTML = ''; // Reset feedback
+            document.getElementById('startButton').innerText = 'Prossimo Menù'; // Cambia il testo del bottone
+        }
+
+        function verifica() {
+            const userInput = document.getElementById('risposta').value;
+            const rispostaCorretta = Math.floor(cifraOriginale / 1000); // Rimuovi gli ultimi 3 zeri (conversione in euro)
+
+            if (parseInt(userInput) === rispostaCorretta) {
+                document.getElementById('feedback').innerHTML = `Bravo! La risposta corretta è ${rispostaCorretta} euro. AH AH Pina`;
+                document.getElementById('feedback').classList.add('animazione'); // Aggiungi classe di animazione
+            } else {
+                document.getElementById('feedback').innerHTML = `Sbagliato! La risposta corretta era ${rispostaCorretta} euro. Riprova con un altro menù`;
+                document.getElementById('feedback').classList.remove('animazione'); // Rimuovi classe di animazione
+            }
+            document.getElementById('risposta').value = ''; // Reset input
+        }
+    </script>
+</body>
+</html>
